@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import { UserRole } from "src/enum/User-Role";
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -13,7 +12,7 @@ export class User {
     @Prop()
     password: string;
 
-    @Prop({type: UserRole})
+    @Prop()
     role: string;
 }
 

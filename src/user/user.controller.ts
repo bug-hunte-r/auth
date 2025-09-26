@@ -13,13 +13,13 @@ export class UserController {
   @HttpCode(201)
   async Signup(@Body() createUserDto: CreateUserDto) {
 
-    const newUser = await this.userService.Signup(createUserDto)
-
     const isUserExist = await this.UserModel.findOne({ username: createUserDto.username })
-
+    
     if (isUserExist) {
       throw new ConflictException('This username is already exist')
     }
+    
+    const newUser = await this.userService.Signup(createUserDto)
 
     return newUser
   }

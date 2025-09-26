@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/model/User';
@@ -10,7 +10,9 @@ export class UserService {
 
     async Signup(createUserDto: CreateUserDto) {
 
-        const newUser = new this.UserModel(createUserDto)
+        const allUsers = await this.UserModel.find({})
+
+        const newUser = new this.UserModel({ ...createUserDto, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
 
         newUser.save()
 
