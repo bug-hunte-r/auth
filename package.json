@@ -21,8 +21,9 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/mongoose": "github:nestjs/mongoose",
+    "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "bcryptjs": "^3.0.2",
     "cookie": "^1.0.2",
