@@ -65,4 +65,17 @@ export class UserService {
 
             return mainUser
     }
+
+    async getAllUsers(req: Request){
+
+        const isUserOrAdmin = await this.getMe(req)
+
+        if (isUserOrAdmin?.role === 'ADMIN') {
+            const allUser = await this.UserModel.find({})
+            return allUser
+        } else {
+            throw new BadRequestException('You do not have access to this route.')
+        }
+        
+    }
 }

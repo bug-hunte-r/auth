@@ -63,4 +63,12 @@ export class UserController {
 
     return mainUser
   }
+
+  @Get()
+  @HttpCode(200)
+  async getAllUsers(@Req() req: Request) {
+    const allUsers = await this.userService.getAllUsers(req)
+
+    return allUsers
+  }
 }
