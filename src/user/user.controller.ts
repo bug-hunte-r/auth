@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Param, HttpCode, ConflictException, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpCode, Res } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './signup-dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/model/User';
 import { Model } from 'mongoose';
 import { generateToken } from 'src/config/auth-helper';
 import type { Response } from 'express';
+import { LoginDto } from './login-dto/login-dto';
 
 @Controller('user')
 export class UserController {
@@ -14,12 +15,6 @@ export class UserController {
   @Post('signup')
   @HttpCode(201)
   async Signup(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
-
-    const isUserExist = await this.UserModel.findOne({ username: createUserDto.username })
-
-    if (isUserExist) {
-      throw new ConflictException('This username is already exist')
-    }
 
     const token = generateToken({ username: createUserDto.username })
 
@@ -36,6 +31,9 @@ export class UserController {
     res.status(201).json({
       newUser
     })
-    
+
   }
+
+
+
 }
