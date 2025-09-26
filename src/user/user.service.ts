@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/model/User';
 import { InjectModel } from '@nestjs/mongoose';
+import { hashdPassHandler } from 'src/config/auth-helper';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,9 @@ export class UserService {
 
         const allUsers = await this.UserModel.find({})
 
-        const newUser = new this.UserModel({ ...createUserDto, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
+        const hahsedPass = await hashdPassHandler(createUserDto.password)
+
+        const newUser = new this.UserModel({ ...createUserDto, password: hahsedPass, role: allUsers.length > 0 ? 'USER' : 'ADMIN' })
 
         newUser.save()
 
