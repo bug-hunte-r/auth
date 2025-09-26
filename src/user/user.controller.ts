@@ -34,6 +34,26 @@ export class UserController {
 
   }
 
+  @Post('login')
+  @HttpCode(200)
+  async Login(@Body() loginDto: LoginDto, @Res() res: Response) {
 
+    const loginedUser = await this.userService.Login(loginDto)
+
+    const token = generateToken({ username: loginDto.username })
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      path: '/',
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 1000 * 60 * 60 * 48
+    })
+
+    res.status(200).json({
+      loginedUser
+    })
+
+  }
 
 }
