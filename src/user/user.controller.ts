@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Param, HttpCode, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpCode, Res, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './signup-dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/model/User';
 import { Model } from 'mongoose';
 import { generateToken } from 'src/config/auth-helper';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { LoginDto } from './login-dto/login-dto';
 
 @Controller('user')
@@ -56,4 +56,11 @@ export class UserController {
 
   }
 
+  @Get('profile')
+  @HttpCode(200)
+  async getMe(@Req() req: Request) {
+    const mainUser = await this.userService.getMe(req)
+
+    return mainUser
+  }
 }
