@@ -7,6 +7,20 @@ import { Model } from 'mongoose';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService, @InjectModel(User.name) private UserModel: Model<UserDocument>) { }
 
+  @Post('signup')
+  @HttpCode(201)
+  async Signup(@Body() createUserDto: CreateUserDto) {
+
+    const newUser = await this.userService.Signup(createUserDto)
+
+    const isUserExist = await this.UserModel.findOne({ username: createUserDto.username })
+
+    if (isUserExist) {
+      throw new ConflictException('This username is already exist')
+    }
+
+    return newUser
+  }
 }
