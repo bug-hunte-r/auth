@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 import { compare } from "bcryptjs";
+import { ConfigService } from "@nestjs/config";
 
 const hashdPassHandler = async (password: any) => {
     const hashedPass = hash(password, 12)
